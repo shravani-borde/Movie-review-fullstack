@@ -17,18 +17,34 @@ public class MovieService {
     }
 
     public Movie addMovie(Movie movie) {
+        if (movie.getWatched() == null) movie.setWatched(false);
         return movieRepository.save(movie);
     }
 
     public void deleteMovie(Long id) {
+        if (!movieRepository.existsById(id)) {
+            throw new RuntimeException("Movie with id " + id + " not found");
+        }
         movieRepository.deleteById(id);
     }
-    
+
     public Movie updateMovie(Long id, Movie updatedMovie) {
-        Movie existing = movieRepository.findById(id).orElseThrow();
+        Movie existing = movieRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Movie with id " + id + " not found"));
         existing.setName(updatedMovie.getName());
         existing.setDirector(updatedMovie.getDirector());
         existing.setRating(updatedMovie.getRating());
+        existing.setImageUrl(updatedMovie.getImageUrl());
+        existing.setGenre(updatedMovie.getGenre());
+        existing.setWatched(updatedMovie.getWatched());
         return movieRepository.save(existing);
+    }
+
+    // NEW — just flips watched true/false
+    public Movie toggleWatched(Long id) {
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Movie with id " + id + " not found"));
+        movie.setWatched(!movie.getWatched());
+        return movieRepository.save(movie);
     }
 }
