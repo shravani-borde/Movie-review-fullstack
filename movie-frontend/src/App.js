@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 
 const API = "http://localhost:8080/api/movies";
-const OMDB_KEY = "7ab38e9c";
+const OMDB_KEY = "your_api_key";
 const PLACEHOLDER = "https://placehold.co/300x420?text=No+Poster";
 const GENRES = ["Action", "Comedy", "Drama", "Horror", "Romance", "Sci-Fi", "Thriller", "Animation", "Documentary", "Other"];
 
